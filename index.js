@@ -2,6 +2,8 @@ import express from "express";
 import mongoose, { connect } from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import userRouter from "./routers/userRouter.js";
+import authenticateUser from "./middlewares/authentication.js";
 
 dotenv.config()
 
@@ -18,6 +20,9 @@ mongoose,connect(mongodbURI).then(()=>{
 app.use(cors())
 
 app.use(express.json())
+app.use(authenticateUser)
+
+app.use("/api/users",userRouter)
 
 
 app.listen(3000,(req,res)=>{
